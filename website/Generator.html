@@ -1,0 +1,563 @@
+<html>
+    <head>
+        <title>K's Mob Command Generator</title>
+        <link rel="icon" href="https://dsm01pap001files.storage.live.com/y4m4TQ5z49dRVByYdOXFTLyadH7B950znBeNyHT4-_Xf7sKMKj9SIXBdXA9TZCkT07e3PQF37UQySy2Vye5HWrbDuWgZFUv5Gcx7IKPrI9Hxs1aB2Jf0_2BucjfyNZGENp6VfpD1nOSdKZaNaB2wPzjfucUc2VbwAp8Y2T-5trNHp9riRFnaBBC1eEcelEUxGhX?width=48&height=48&cropmode=none">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron&display=swap">
+        <style>
+            .clearfix::after {
+                content: "";
+                clear: both;
+                display: none;
+            }
+            div::-webkit-scrollbar {
+                height: 100%;
+                width: 10px;
+                background-color: red;
+            }
+            div::-webkit-scrollbar-thumb {
+                background-color: black;
+            }
+
+            div.select {
+                display: block;
+                box-sizing: border-box;
+                min-width: 1000px;
+                width: 95%;
+                margin: auto;
+            }
+            div.sort {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                width: 100%;
+                padding: 5px;
+                font-family: "Audiowide", sans-serif;
+                text-align: center;
+            }
+            
+            div.option {
+                display: inline-block;
+                box-sizing: border-box;
+                height: 56px;
+                width: 600px;
+                margin: 1px;
+                border: 3px solid rgb(38, 6, 99);
+                border-radius: 3px;
+                background-color: rgb(21, 5, 19);
+                font-family: "Audiowide", sans-serif;
+                font-size: 12px;
+            }
+            div.icon {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 100%;
+                width: 8%;
+                padding: 5px;
+                text-align: right;
+                image-rendering: pixelated;
+            }
+            div.text {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 100%;
+                width: 20%;
+                padding: 5px;
+                text-align: right;
+            }
+            div.text p {
+                color: white;
+            }
+            div.input {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 100%;
+                width: 56%;
+                padding: 5px;
+                text-align: left;
+            }
+            div.input div {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 100%;
+                width: 50%;
+                padding: 5px;
+            }
+            div.input select, div.input input {
+                box-sizing: border-box;
+                height: 100%;
+                width: 100%;
+                border: 0;
+                margin: 0;
+            }
+            div.input input.range {
+                width: 80%;
+            }
+            div.input span {
+                display: inline-block;
+                box-sizing: border-box;
+                width: 10%;
+                color: white;
+                font-family: "Orbitron", sans-serif;
+                font-size: 10px;
+            }
+            div.input input.checkbox {
+                width: 15px;
+            }
+            div.description {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 50%;
+                width: 16%;
+                padding: 5px;
+                text-align: right;
+                color: gray;
+            }
+            div.usage {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 50%;
+                width: 16%;
+                padding: 5px;
+                text-align: right;
+            }
+            div.usage img {
+                display: block;
+                float: right;
+                padding: 0 1px;
+            }
+            div.output {
+                display: inline-block;
+                box-sizing: border-box;
+                height: 50px;
+                width: 800px;
+            }
+            div.command {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 100%;
+                width: 85%;
+                border: 3px solid;
+                border-color: rgb(55, 55, 55) rgb(232, 232, 232) rgb(232, 232, 232) rgb(55, 55, 55);
+                background-color: rgb(177, 177, 177);
+            }
+            div.command div {
+                display: inline-block;
+                box-sizing: border-box;
+                overflow: auto;
+                height: 100%;
+                width: 100%;
+                word-wrap: break-word;
+                font-family: monospace;
+                text-align: left;
+            }
+            div.button {
+                display: block;
+                float: left;
+                box-sizing: border-box;
+                height: 100%;
+                width: 15%;
+                border: 3px solid;
+                border-color: rgb(55, 55, 55) rgb(232, 232, 232) rgb(232, 232, 232) rgb(55, 55, 55);
+                background-color: rgb(177, 177, 177);
+            }
+        </style>
+        <script>
+            // Number Select
+            function nS(name, target) {
+                let Target = document.getElementById(target).value * 1;
+
+                if (isNaN(Target) == false) {return "," + name + ":" + Target;}
+                else {return "";};
+            };
+            // Number Select 2
+            function nSS(name, target, result) {
+                let Target = document.getElementById(target).value * 1;
+                let Result = document.getElementById(result).value * 1;
+                
+                if (isNaN(Target) == false) {return "," + name + ":[" + Target + "," + Result +"]";}
+                else {return "";};
+            };
+            // Text Select n Text Input
+            function tST(name, target, result) {
+                let Target = document.getElementById(target).value;
+                let Result = document.getElementById(result).value;
+
+                if (Target != "unset") {return Target}
+                else if (Result != "") {return Result}
+                else {return name;};
+            };
+            // Range
+            function R(name, range) {
+                let Range = document.getElementById(range).value;
+
+                if (Range != 0) {return "," + name + ":" + Range;}
+                else {return "";};
+            };
+            // Check Box Byte
+            function Cb(name, checkbox) {
+                let Check = document.getElementById(checkbox).checked;
+
+                if (Check == true) {return "," + name + ":1b";}
+                else {return "";};
+            };
+            // Check Box Short
+            function Cs(name, checkbox) {
+                let Check = document.getElementById(checkbox).checked;
+
+                if (Check == true) {return "," + name + ":1s";}
+                else {return "";};
+            };
+
+
+
+            function Output() {
+                let Durability = () => {
+                    let DurabilityP = document.getElementById("Durability").value * 1;
+
+                    if (isNaN(DurabilityP) == false && DurabilityP != 0) {
+                        let Content =
+                            ",Durability:" + DurabilityP +
+                            Cb("Kit", "KitSwitch");
+
+                        return Content;
+                    }
+                    else {return "";};
+                };
+                let Functions = () => {
+                    let Effects = () => {
+                        let Content =
+                            nSS("Absorption", "AbsorptionLevel", "AbsorptionDuration") +
+                            nS("Glowing", "GlowingDuration") +
+                            nSS("Regeneration", "RegenerationLevel", "RegenerationDuration") +
+                            R("Saturation", "SaturationLevel");
+
+                        if (Content != "") {return ",Effects:{" + Content.slice(1) + "}";}
+                        else {return "";};
+                    };
+                    let Enchantments = () => {
+                        let Content =
+                            Cs("LongFall", "LongFallSwitch") +
+                            Cs("Resistance", "ResistanceSwitch") +
+                            Cs("Tasty", "TastySwitch");
+
+                        if (Content != "") {return ",Enchantments:{" + Content.slice(1) + "}";}
+                        else {return "";};
+                    };
+
+                    let Content = Effects() + Enchantments();
+
+                    if (Content != "") {return ",Functions:{" + Content.slice(1) + "}";}
+                    else {return "";};
+                };
+
+                let Content = Durability() + Functions();
+    
+                if (Content != "") {
+                    document.getElementById("GiveOutput").innerHTML =
+                     "/give " + tST("PlayerName", "PlayerSelected", "PlayerName") + " " + tST("ItemId", "ItemSelected", "ItemId") + "{" + Content.slice(1) + "}";
+                }
+                else {
+                    document.getElementById("GiveOutput").innerHTML = "Nothing Here ~~";
+                };
+            };
+
+            function Hidden(resource, target) {
+                let Resource = document.getElementById(resource).value;
+
+                if (Resource == "unset") {
+                    document.getElementById(target).setAttribute("hidden", true);
+                }
+                else {
+                    document.getElementById(target).removeAttribute("hidden");
+                };
+            };
+            function Shown(resource, target) {
+                let Resource = document.getElementById(resource).value;
+                
+                if (Resource == "unset") {
+                    document.getElementById(target).removeAttribute("hidden");
+                }
+                else {
+                    document.getElementById(target).setAttribute("hidden", true);
+                };
+            };
+            function RView(range, target) {
+                let Range = document.getElementById(range).value;
+                
+                if (Range < 10) {
+                    document.getElementById(target).innerHTML = "0" + Range;
+                }
+                else {
+                    document.getElementById(target).innerHTML = Range;
+                };
+            };
+            
+            function Test1() {
+            };
+            function Test2() {
+            };
+        </script>
+    </head>
+    <body>
+        <div class="select clearfix">
+            <div class="sort">
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mbsww3l88oncnceoLdgrbkgN8hBv0RBUukiGyjd4WN6LHamQ03RHB08qszpCMl7KjwQT7EUwMuKAgUPhFF_rXCGXQqgZvwR4_kF_jtbELzcFzVRH6wh-hzBfZfWZSCWXr2wz24Sth6Y7ikDV5-TUQBeGGFjEfy56dppC2R6P_58KcpDq641novCKNfAxyAMJD?width=8&height=8&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Player Name</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <select name="PlayerSelected" id="PlayerSelected" oninput="Shown('PlayerSelected', 'PlayerName'); Output();">
+                                <option value="unset">(Player Name)</option>
+                                <option value="@a">@a - All Players</option>
+                                <option value="@e">@e - All Entities</option>
+                                <option value="@p">@p - Nearest Player</option>
+                                <option value="@r">@r - Random Player</option>
+                                <option value="@s">@s - Current Entity</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="text" name="PlayerName" id="PlayerName" placeholder="Player Name" oninput="Output();">
+                        </div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage"></div>
+                </div>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4ma5IvFfsi-sKdCpZqe90fe_SHkZt8SE3EQVYvMB6H8SBZk68BuEiKb9n_T6zU5osaP8a3ZmaiYN0oOhROo23K8XUhohUjiCd_k7YYc9GwH9aTGVCT3y9surh5SXoXRqj6mk1hAD14B26uXXo7YlBbEInbsM7VrIJWNmr7tDbDVebLz-dq5aqF3-iSbHyCrOub?width=32&height=32&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Item Id</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <select name="ItemSelected" id="ItemSelected" oninput="Shown('ItemSelected', 'ItemId'); Output();">
+                                <option value="unset">(Custom Item Id)</option>
+                                <option value="minecraft:cookie">Cookie</option>
+                                <option value="minecraft:command_block">Command Block</option>
+                                <option value="minecraft:enchanted_book">Enchanted Book</option>
+                                <option value="minecraft:leather_helmet">Leather Helmet</option>
+                                <option value="minecraft:leather_chestplate">Leather Chestplate</option>
+                                <option value="minecraft:leather_leggings">Leather Leggings</option>
+                                <option value="minecraft:leather_boots">Leather Boots</option>
+                                <option value="minecraft:snowball">Snowball</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="text" name="ItemId" id="ItemId" placeholder="Item Id" oninput="Output();">
+                        </div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage"></div>
+                </div>
+            </div>
+            <div class="sort">
+                <h2>Konoe's Mob</h2>
+                <h3>Durability</h3>
+                <div style="display: inline-block; box-sizing: border-box; width: 180px; height: 46px; margin: 2px; border: 3px solid rgb(38, 6, 99); border-radius: 3px; padding: 5px 10px; background-color: rgb(21, 5, 19);">
+                    <input style="width: 100%; height: 100%; padding: 0;" type="number" name="Durability" id="Durability" value="" placeholder="Durability Points" oninput="Output();">
+                </div><br>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mHNMUqYAG0UssAJajmCi_oeSVXN8t3c4NrJmr7sHLcspIpI-r3VW38DSDQlhqelxvUYMuChCMXg8iAH9l3JgIlDg8Y5R1whASKc9A-z3EJgg8RBNR4hFl4pcHBhmApJzvYOTkH-kKYA3jPbsl7AUHOEm2ERB0FpMXuQvyvK3HqzgE7SFmeyr8k6SEW7hsS_HJ?width=16&height=16&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Repair Kit</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <input class="checkbox" type="checkbox" name="KitSwitch" id="KitSwitch" oninput="Output();">
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4ma5IvFfsi-sKdCpZqe90fe_SHkZt8SE3EQVYvMB6H8SBZk68BuEiKb9n_T6zU5osaP8a3ZmaiYN0oOhROo23K8XUhohUjiCd_k7YYc9GwH9aTGVCT3y9surh5SXoXRqj6mk1hAD14B26uXXo7YlBbEInbsM7VrIJWNmr7tDbDVebLz-dq5aqF3-iSbHyCrOub?width=32&height=32&cropmode=none" alt="">
+                    </div>
+                </div>
+                <h3>Effects</h3>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m9yF6uGyJkqlcbA5T0z8Pl4fYvvXGOxCKtJMkUuY-Ahf5s-eTK0OjAjR6fGr7556giHbY8_IICmxSf1bZum6D29fKA3hvkN-iQ2crgsniRACaYeE9Fl8LEsYv42kQxNifQIa7NBiXWI4lpa_mbGft5PP8ct25hGSPBDAHiU0qh_lcNt3TrjjQGTIr9f7JvcgB?width=18&height=18&cropmode=none" alt="">
+                    </div>
+                    <div class="text"><p>Absorption</p></div>
+                    <div class="input">
+                        <div>
+                            <select name="AbsorptionLevel" id="AbsorptionLevel" oninput="Hidden('AbsorptionLevel', 'AbsorptionDuration'); Output();">
+                                <option value="unset">(Choose Here)</option>
+                                <option value="0">Level 1</option>
+                                <option value="1">Level 2</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="AbsorptionDuration" id="AbsorptionDuration" oninput="Output();" hidden>
+                                <option value="5">5 Second</option>
+                                <option value="10">10 Second</option>
+                                <option value="20">20 Second</option>
+                                <option value="30">30 Second</option>
+                                <option value="60">1 Minute</option>
+                                <option value="120">2 Minute</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                        <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mgDUAe9buLIVLIXS6tBygFYmtivrnV1-Q0Z9IxOiyRQsWAxo4g3tvpJ-3Sye-Eo3SwGpZ-yffOkTLNXTd9VnbbGm28ktLyMoyfpAcLQWYNjFezdttE_6s42dWrvcVJ7Gj8xd8CtnOBh8mf8WzJhSMvV_5qEXy5aT-U47DPihuSsyPwQyFdaEGqwEr-Vz4u48Q?width=18&height=18&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Glowing</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <select name="GlowingDuration" id="GlowingDuration" oninput="Output();">
+                                <option value="unset">(Choose Here)</option>
+                                <option value="5">5 Second</option>
+                                <option value="10">10 Second</option>
+                                <option value="20">20 Second</option>
+                                <option value="30">30 Second</option>
+                                <option value="60">1 Minute</option>
+                                <option value="120">2 Minute</option>
+                            </select>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m4OiaLnuXvaLfC7QO75wpfSDxGXrR35HJda8XD0Exo_PFDa3bEWzWjbyO8eFh4XJH6-trLp6Jz_r632yG5-irkey8JRKkT3PujnegUR_r0KPQ2u0_W-73tjku74jpeqeg6CQQoZMj0tP7Lheog2SvKt_rvazH-dfRE7sFvvYAhYW-huCkazT1pPgi6PZXydho?width=18&height=18&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Regeneration</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <select name="RegenerationLevel" id="RegenerationLevel" oninput="Hidden('RegenerationLevel', 'RegenerationDuration'); Output();">
+                                <option value="unset">(Choose Here)</option>
+                                <option value="0">Level 1</option>
+                                <option value="1">Level 2</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="RegenerationDuration" id="RegenerationDuration" oninput="Output();" hidden>
+                                <option value="5">5 Second</option>
+                                <option value="10">10 Second</option>
+                                <option value="20">20 Second</option>
+                                <option value="30">30 Second</option>
+                                <option value="60">1 Minute</option>
+                                <option value="120">2 Minute</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m-ENCz4zR7xvANMmMYLZr2umUiCNfiz_YZdeO3van8r1mbp9IKWgGbIhK_zX_7efiARvBSkCKLxo7NBXaKDwLxXqbOfLlqzZGZevllCPU098hOAsmIOycSrEeug9OTyTqJmML2GYtOWC7eNmfEDjajmevIcgtFgmEvs8ulKqgRGbvWuRt5Gm5AjCXWjfav5eg?width=18&height=18&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Saturation</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <input class="range" type="range" name="SaturationLevel" id="SaturationLevel" min="0" max="20" step="1" value="0" oninput="RView('SaturationLevel', 'SaturationView'); Output();">
+                            <span id="SaturationView">00</span>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                    </div>
+                </div>
+                <h3>Enchantments</h3>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mYW6PM2BC-2-jMlYQE16TndUWdUuuw25rP61yQeNJVnISZa-Yy3m8ZAFamConJubPvCOMMjc2jmIm7D1-Nznzbf55BPpR7ex3rYQDfw6jZnB9pqV-jv0yDy_tEwZeJcYL2MOnTpJ6PZNjQ-lEPu91NpPuSbkrSCHEeThoMi2PP9wihpExRDce1A94KuCnAKAt?width=16&height=16&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Long Fall</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <input class="checkbox" type="checkbox" id="LongFallSwitch" oninput="Output();">
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mNxECmqXfd2gsQu3TVtL9P7IbrZdRvonfdRcnY8qeH5N7VxGW0ajLvtp2LZleI1J8spvs6FiURFc4x-MMijV-R7tSP2s4j-Wft_BhVnUuOMOLQtpYe9Cg8TInMRhtHqK3krh_EU5EtSEeBl4viUCFtJyActeYr1cnKwr935247DSbbhyKaolR02JX7jao2OHB?width=16&height=16&cropmode=none" alt="B">
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m_GHD3V7wUY13s44NME6A2uMmX_2Ogc8q09wFM3dq6KDM2kzV4dgqe6Cx9toZ_zuQlGOvNukPMPLMV8DpkKX9m4M-tCLvrnGDt3Y9m2gI2zsbzoGv1QlOneUbgGOtyNvCyo-cd6e5emdGAPjOTuvAE4d9N7mYZA5J_o3pF_2F5xSecUGEjiKfDd4ItXmKb089?width=18&height=18&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Resistance</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <input class="checkbox" type="checkbox" id="ResistanceSwitch" oninput="Output();">
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                        <img height="100%" src="https://dsm01pap001files.storage.live.com/y4m_HDS-yRjh-WKLyw3SkLV3uR-UJLH9wdZCMgUr56QAHGb1oFCH7iIjiG0h68HnKm_hwkBXkptVNJIDi5ZYIRhjQwvdhnvMy4QxTRG9MlQA121PlZ4pl80scykeugmhG1-csSYdj_AGAuf_UWEAzdAWjWiaK6LBW-wsBL3h9x43Q-7EtP4iDW59y4pvohL87rh?width=24&height=24&cropmode=none" alt="A">
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon">
+                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mG4gAWrEXv5mbjDpLtPwQOwn1Qyjg3dtVDZ5lV8WvMkeUbAdPKzCECgTZGaeSi2CS9uJbUOVexILwaTQ9Xzz2EezTBxBvM4u2ybXUx7qPmUObjATRN193TF0RaGRCAjKl4q6lXa5qMWLcZF63SZ93ItuIFkCPIAqz2Ve-I1nlder4j_flIZm6GRx7MkoaxqYx?width=16&height=16&cropmode=none" alt="">
+                    </div>
+                    <div class="text">
+                        <p>Tasty</p>
+                    </div>
+                    <div class="input">
+                        <div>
+                            <input class="checkbox" type="checkbox" id="TastySwitch" oninput="Output();">
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="description"></div>
+                    <div class="usage">
+                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4m_HDS-yRjh-WKLyw3SkLV3uR-UJLH9wdZCMgUr56QAHGb1oFCH7iIjiG0h68HnKm_hwkBXkptVNJIDi5ZYIRhjQwvdhnvMy4QxTRG9MlQA121PlZ4pl80scykeugmhG1-csSYdj_AGAuf_UWEAzdAWjWiaK6LBW-wsBL3h9x43Q-7EtP4iDW59y4pvohL87rh?width=24&height=24&cropmode=none" alt="A">
+                       <img height="100%" src="https://dsm01pap007files.storage.live.com/y4mzougfVYLkuEg5SgUiQidvRWV8jC862EVi7DLybGI_nHVGfddNsMC2ppzdhSrD9RgA7H6EMAGZgwUllLkoq5omsk3N__vmnLtDu_e8lqI7wMAvx3HmqhwlpJELnTfkuxNFK3lzJLy4TimV26ranp8cfLUVemCH3ZPV5RoB5IdyiZak-JCSgst6W-qVPtcMFOB?width=24&height=24&cropmode=none" alt="T">
+                    </div>
+                </div>
+            </div>
+            <div class="sort">
+                <h2>Output</h2>
+                <div class="output">
+                    <div class="command">
+                        <div id="GiveOutput">Nothing Here ~~<br>13123<br>13123<br>13123</div>
+                    </div>
+                    <div class="button"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
