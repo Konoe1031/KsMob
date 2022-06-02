@@ -1,0 +1,96 @@
+div.option {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 56px;
+    width: 600px;
+    margin: 1px;
+    border: 3px solid rgb(38, 6, 99);
+    border-radius: 3px;
+    background-color: rgb(21, 5, 19);
+    font-family: "Audiowide", sans-serif;
+    font-size: 12px;
+}
+div.icon {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    height: 100%;
+    width: 8%;
+    padding: 5px;
+    text-align: right;
+    image-rendering: pixelated;
+}
+div.text {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    height: 100%;
+    width: 20%;
+    padding: 5px;
+    text-align: right;
+}
+div.text p {
+    color: white;
+}
+div.input {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    height: 100%;
+    width: 56%;
+    padding: 5px;
+    text-align: left;
+}
+div.input div {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    height: 100%;
+    width: 50%;
+    padding: 5px;
+}
+div.input select, div.input input {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    margin: 0;
+}
+div.input input.range {
+    width: 80%;
+}
+div.input span {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 10%;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    font-size: 10px;
+}
+div.input input.checkbox {
+    width: 15px;
+}
+div.description {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    height: 50%;
+    width: 16%;
+    padding: 5px;
+    text-align: right;
+    color: gray;
+}
+div.usage {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    height: 50%;
+    width: 16%;
+    padding: 5px;
+    text-align: right;
+}
+div.usage img {
+    display: block;
+    float: right;
+    padding: 0 1px;
+}
