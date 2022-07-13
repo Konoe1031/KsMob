@@ -1,10 +1,14 @@
 <html>
     <head>
         <title>K's Mob Command Generator</title>
-        <link rel="icon" href="https://dsm01pap001files.storage.live.com/y4m4TQ5z49dRVByYdOXFTLyadH7B950znBeNyHT4-_Xf7sKMKj9SIXBdXA9TZCkT07e3PQF37UQySy2Vye5HWrbDuWgZFUv5Gcx7IKPrI9Hxs1aB2Jf0_2BucjfyNZGENp6VfpD1nOSdKZaNaB2wPzjfucUc2VbwAp8Y2T-5trNHp9riRFnaBBC1eEcelEUxGhX?width=48&height=48&cropmode=none">
+        <link rel="icon" href="../icons/pack.png">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron&display=swap">
-        <link rel="stylesheet" href="styles/option.css">
+        <link rel="stylesheet" href="../styles/option.css">
+        <script src="../scripts/options.js"></script>
         <style>
+            * {
+                box-sizing: border-box;
+            }
             .clearfix::after {
                 content: "";
                 clear: both;
@@ -13,15 +17,13 @@
             div::-webkit-scrollbar {
                 height: 100%;
                 width: 10px;
-                background-color: red;
             }
             div::-webkit-scrollbar-thumb {
-                background-color: black;
+                background-color: none;
             }
 
             div.select {
                 display: block;
-                box-sizing: border-box;
                 min-width: 1000px;
                 width: 95%;
                 margin: auto;
@@ -29,7 +31,6 @@
             div.sort {
                 display: block;
                 float: left;
-                box-sizing: border-box;
                 width: 100%;
                 padding: 5px;
                 font-family: "Audiowide", sans-serif;
@@ -38,14 +39,12 @@
             
             div.output {
                 display: inline-block;
-                box-sizing: border-box;
                 height: 50px;
                 width: 800px;
             }
             div.command {
                 display: block;
                 float: left;
-                box-sizing: border-box;
                 height: 100%;
                 width: 85%;
                 border: 3px solid;
@@ -54,7 +53,6 @@
             }
             div.command div {
                 display: inline-block;
-                box-sizing: border-box;
                 overflow: auto;
                 height: 100%;
                 width: 100%;
@@ -65,7 +63,6 @@
             div.button {
                 display: block;
                 float: left;
-                box-sizing: border-box;
                 height: 100%;
                 width: 15%;
                 border: 3px solid;
@@ -74,140 +71,8 @@
             }
         </style>
         <script>
-            // Number Select
-            function nS(name, target) {
-                let Target = document.getElementById(target).value * 1;
-
-                if (isNaN(Target) == false) {return "," + name + ":" + Target;}
-                else {return "";};
-            };
-            // Number Select 2
-            function nSS(name, target, result) {
-                let Target = document.getElementById(target).value * 1;
-                let Result = document.getElementById(result).value * 1;
-                
-                if (isNaN(Target) == false) {return "," + name + ":[" + Target + "," + Result +"]";}
-                else {return "";};
-            };
-            // Text Select n Text Input
-            function tST(name, target, result) {
-                let Target = document.getElementById(target).value;
-                let Result = document.getElementById(result).value;
-
-                if (Target != "unset") {return Target}
-                else if (Result != "") {return Result}
-                else {return name;};
-            };
-            // Range
-            function R(name, range) {
-                let Range = document.getElementById(range).value;
-
-                if (Range != 0) {return "," + name + ":" + Range;}
-                else {return "";};
-            };
-            // Check Box Byte
-            function Cb(name, checkbox) {
-                let Check = document.getElementById(checkbox).checked;
-
-                if (Check == true) {return "," + name + ":1b";}
-                else {return "";};
-            };
-            // Check Box Short
-            function Cs(name, checkbox) {
-                let Check = document.getElementById(checkbox).checked;
-
-                if (Check == true) {return "," + name + ":1s";}
-                else {return "";};
-            };
-
-
-
-            function Output() {
-                let Durability = () => {
-                    let DurabilityP = document.getElementById("Durability").value * 1;
-
-                    if (isNaN(DurabilityP) == false && DurabilityP != 0) {
-                        let Content =
-                            ",Durability:" + DurabilityP +
-                            Cb("Kit", "KitSwitch");
-
-                        return Content;
-                    }
-                    else {return "";};
-                };
-                let Functions = () => {
-                    let Effects = () => {
-                        let Content =
-                            nSS("Absorption", "AbsorptionLevel", "AbsorptionDuration") +
-                            nS("Glowing", "GlowingDuration") +
-                            nSS("Regeneration", "RegenerationLevel", "RegenerationDuration") +
-                            R("Saturation", "SaturationLevel");
-
-                        if (Content != "") {return ",Effects:{" + Content.slice(1) + "}";}
-                        else {return "";};
-                    };
-                    let Enchantments = () => {
-                        let Content =
-                            Cs("LongFall", "LongFallSwitch") +
-                            Cs("Resistance", "ResistanceSwitch") +
-                            Cs("Tasty", "TastySwitch");
-
-                        if (Content != "") {return ",Enchantments:{" + Content.slice(1) + "}";}
-                        else {return "";};
-                    };
-
-                    let Content = Effects() + Enchantments();
-
-                    if (Content != "") {return ",Functions:{" + Content.slice(1) + "}";}
-                    else {return "";};
-                };
-
-                let Content = Durability() + Functions();
-    
-                if (Content != "") {
-                    document.getElementById("GiveOutput").innerHTML =
-                     "/give " + tST("PlayerName", "PlayerSelected", "PlayerName") + " " + tST("ItemId", "ItemSelected", "ItemId") + "{" + Content.slice(1) + "}";
-                }
-                else {
-                    document.getElementById("GiveOutput").innerHTML = "Nothing Here ~~";
-                };
-            };
-
-            function Hidden(resource, target) {
-                let Resource = document.getElementById(resource).value;
-
-                if (Resource == "unset") {
-                    document.getElementById(target).setAttribute("hidden", true);
-                }
-                else {
-                    document.getElementById(target).removeAttribute("hidden");
-                };
-            };
-            function Shown(resource, target) {
-                let Resource = document.getElementById(resource).value;
-                
-                if (Resource == "unset") {
-                    document.getElementById(target).removeAttribute("hidden");
-                }
-                else {
-                    document.getElementById(target).setAttribute("hidden", true);
-                };
-            };
-            function RView(range, target) {
-                let Range = document.getElementById(range).value;
-                
-                if (Range < 10) {
-                    document.getElementById(target).innerHTML = "0" + Range;
-                }
-                else {
-                    document.getElementById(target).innerHTML = Range;
-                };
-            };
-            
-            function Test1() {
-            };
-            function Test2() {
-            };
+            function Test1() {};
+            function Test2() {};
         </script>
     </head>
     <body>
@@ -215,7 +80,7 @@
             <div class="sort">
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mbsww3l88oncnceoLdgrbkgN8hBv0RBUukiGyjd4WN6LHamQ03RHB08qszpCMl7KjwQT7EUwMuKAgUPhFF_rXCGXQqgZvwR4_kF_jtbELzcFzVRH6wh-hzBfZfWZSCWXr2wz24Sth6Y7ikDV5-TUQBeGGFjEfy56dppC2R6P_58KcpDq641novCKNfAxyAMJD?width=8&height=8&cropmode=none" alt="">
+                        <img width="100%" src="../icons/24/skeleton_head.png" alt="">
                     </div>
                     <div class="text">
                         <p>Player Name</p>
@@ -240,7 +105,7 @@
                 </div>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4ma5IvFfsi-sKdCpZqe90fe_SHkZt8SE3EQVYvMB6H8SBZk68BuEiKb9n_T6zU5osaP8a3ZmaiYN0oOhROo23K8XUhohUjiCd_k7YYc9GwH9aTGVCT3y9surh5SXoXRqj6mk1hAD14B26uXXo7YlBbEInbsM7VrIJWNmr7tDbDVebLz-dq5aqF3-iSbHyCrOub?width=32&height=32&cropmode=none" alt="">
+                        <img width="100%" src="../icons/32/command_block.png" alt="">
                     </div>
                     <div class="text">
                         <p>Item Id</p>
@@ -275,7 +140,7 @@
                 </div><br>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mHNMUqYAG0UssAJajmCi_oeSVXN8t3c4NrJmr7sHLcspIpI-r3VW38DSDQlhqelxvUYMuChCMXg8iAH9l3JgIlDg8Y5R1whASKc9A-z3EJgg8RBNR4hFl4pcHBhmApJzvYOTkH-kKYA3jPbsl7AUHOEm2ERB0FpMXuQvyvK3HqzgE7SFmeyr8k6SEW7hsS_HJ?width=16&height=16&cropmode=none" alt="">
+                        <img width="100%" src="../icons/16/repair_kit.png" alt="">
                     </div>
                     <div class="text">
                         <p>Repair Kit</p>
@@ -288,13 +153,13 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4ma5IvFfsi-sKdCpZqe90fe_SHkZt8SE3EQVYvMB6H8SBZk68BuEiKb9n_T6zU5osaP8a3ZmaiYN0oOhROo23K8XUhohUjiCd_k7YYc9GwH9aTGVCT3y9surh5SXoXRqj6mk1hAD14B26uXXo7YlBbEInbsM7VrIJWNmr7tDbDVebLz-dq5aqF3-iSbHyCrOub?width=32&height=32&cropmode=none" alt="">
+                       <img height="100%" src="../icons/32/command_block.png" alt="">
                     </div>
                 </div>
                 <h3>Effects</h3>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m9yF6uGyJkqlcbA5T0z8Pl4fYvvXGOxCKtJMkUuY-Ahf5s-eTK0OjAjR6fGr7556giHbY8_IICmxSf1bZum6D29fKA3hvkN-iQ2crgsniRACaYeE9Fl8LEsYv42kQxNifQIa7NBiXWI4lpa_mbGft5PP8ct25hGSPBDAHiU0qh_lcNt3TrjjQGTIr9f7JvcgB?width=18&height=18&cropmode=none" alt="">
+                        <img width="100%" src="../icons/18/absorption.png" alt="">
                     </div>
                     <div class="text"><p>Absorption</p></div>
                     <div class="input">
@@ -318,12 +183,12 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                        <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                        <img height="100%" src="../icons/16/cookie.png" alt="F">
                     </div>
                 </div>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mgDUAe9buLIVLIXS6tBygFYmtivrnV1-Q0Z9IxOiyRQsWAxo4g3tvpJ-3Sye-Eo3SwGpZ-yffOkTLNXTd9VnbbGm28ktLyMoyfpAcLQWYNjFezdttE_6s42dWrvcVJ7Gj8xd8CtnOBh8mf8WzJhSMvV_5qEXy5aT-U47DPihuSsyPwQyFdaEGqwEr-Vz4u48Q?width=18&height=18&cropmode=none" alt="">
+                        <img width="100%" src="../icons/18/glowing.png" alt="">
                     </div>
                     <div class="text">
                         <p>Glowing</p>
@@ -344,12 +209,12 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                       <img height="100%" src="../icons/16/cookie.png" alt="F">
                     </div>
                 </div>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m4OiaLnuXvaLfC7QO75wpfSDxGXrR35HJda8XD0Exo_PFDa3bEWzWjbyO8eFh4XJH6-trLp6Jz_r632yG5-irkey8JRKkT3PujnegUR_r0KPQ2u0_W-73tjku74jpeqeg6CQQoZMj0tP7Lheog2SvKt_rvazH-dfRE7sFvvYAhYW-huCkazT1pPgi6PZXydho?width=18&height=18&cropmode=none" alt="">
+                        <img width="100%" src="../icons/18/regeneration.png" alt="">
                     </div>
                     <div class="text">
                         <p>Regeneration</p>
@@ -375,12 +240,12 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                       <img height="100%" src="../icons/16/cookie.png" alt="F">
                     </div>
                 </div>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m-ENCz4zR7xvANMmMYLZr2umUiCNfiz_YZdeO3van8r1mbp9IKWgGbIhK_zX_7efiARvBSkCKLxo7NBXaKDwLxXqbOfLlqzZGZevllCPU098hOAsmIOycSrEeug9OTyTqJmML2GYtOWC7eNmfEDjajmevIcgtFgmEvs8ulKqgRGbvWuRt5Gm5AjCXWjfav5eg?width=18&height=18&cropmode=none" alt="">
+                        <img width="100%" src="../icons/18/saturation.png" alt="">
                     </div>
                     <div class="text">
                         <p>Saturation</p>
@@ -394,13 +259,13 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mAbPoSTk4IVrSwSehTYUBDEId_CHGiGWbN2ZgyTtl-hoOucYxL5Q_CrWJDXiD-FMuwN0ibRPE1MP0L6N-4USb7-Ii26idtuIHrCBpq7fd7i3Qaj5ofT-5eLhc5V_fimTdV8bZiTynCpB33WIzfk6TaL4r5l3u7alhanje6r2W04yZFuFNNutkeKq9ppbT9Gvp?width=16&height=16&cropmode=none" alt="F">
+                       <img height="100%" src="../icons/16/cookie.png" alt="F">
                     </div>
                 </div>
                 <h3>Enchantments</h3>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mYW6PM2BC-2-jMlYQE16TndUWdUuuw25rP61yQeNJVnISZa-Yy3m8ZAFamConJubPvCOMMjc2jmIm7D1-Nznzbf55BPpR7ex3rYQDfw6jZnB9pqV-jv0yDy_tEwZeJcYL2MOnTpJ6PZNjQ-lEPu91NpPuSbkrSCHEeThoMi2PP9wihpExRDce1A94KuCnAKAt?width=16&height=16&cropmode=none" alt="">
+                        <img width="100%" src="../icons/16/feather.png" alt="">
                     </div>
                     <div class="text">
                         <p>Long Fall</p>
@@ -413,12 +278,12 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4mNxECmqXfd2gsQu3TVtL9P7IbrZdRvonfdRcnY8qeH5N7VxGW0ajLvtp2LZleI1J8spvs6FiURFc4x-MMijV-R7tSP2s4j-Wft_BhVnUuOMOLQtpYe9Cg8TInMRhtHqK3krh_EU5EtSEeBl4viUCFtJyActeYr1cnKwr935247DSbbhyKaolR02JX7jao2OHB?width=16&height=16&cropmode=none" alt="B">
+                       <img height="100%" src="../icons/16/iron_boots.png" alt="B">
                     </div>
                 </div>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4m_GHD3V7wUY13s44NME6A2uMmX_2Ogc8q09wFM3dq6KDM2kzV4dgqe6Cx9toZ_zuQlGOvNukPMPLMV8DpkKX9m4M-tCLvrnGDt3Y9m2gI2zsbzoGv1QlOneUbgGOtyNvCyo-cd6e5emdGAPjOTuvAE4d9N7mYZA5J_o3pF_2F5xSecUGEjiKfDd4ItXmKb089?width=18&height=18&cropmode=none" alt="">
+                        <img width="100%" src="../icons/18/resistance.png" alt="">
                     </div>
                     <div class="text">
                         <p>Resistance</p>
@@ -431,12 +296,12 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                        <img height="100%" src="https://dsm01pap001files.storage.live.com/y4m_HDS-yRjh-WKLyw3SkLV3uR-UJLH9wdZCMgUr56QAHGb1oFCH7iIjiG0h68HnKm_hwkBXkptVNJIDi5ZYIRhjQwvdhnvMy4QxTRG9MlQA121PlZ4pl80scykeugmhG1-csSYdj_AGAuf_UWEAzdAWjWiaK6LBW-wsBL3h9x43Q-7EtP4iDW59y4pvohL87rh?width=24&height=24&cropmode=none" alt="A">
+                        <img height="100%" src="../icons/24/iron_armors.png" alt="A">
                     </div>
                 </div>
                 <div class="option">
                     <div class="icon">
-                        <img width="100%" src="https://dsm01pap001files.storage.live.com/y4mG4gAWrEXv5mbjDpLtPwQOwn1Qyjg3dtVDZ5lV8WvMkeUbAdPKzCECgTZGaeSi2CS9uJbUOVexILwaTQ9Xzz2EezTBxBvM4u2ybXUx7qPmUObjATRN193TF0RaGRCAjKl4q6lXa5qMWLcZF63SZ93ItuIFkCPIAqz2Ve-I1nlder4j_flIZm6GRx7MkoaxqYx?width=16&height=16&cropmode=none" alt="">
+                        <img width="100%" src="../icons/16/cake.png" alt="">
                     </div>
                     <div class="text">
                         <p>Tasty</p>
@@ -449,8 +314,8 @@
                     </div>
                     <div class="description"></div>
                     <div class="usage">
-                       <img height="100%" src="https://dsm01pap001files.storage.live.com/y4m_HDS-yRjh-WKLyw3SkLV3uR-UJLH9wdZCMgUr56QAHGb1oFCH7iIjiG0h68HnKm_hwkBXkptVNJIDi5ZYIRhjQwvdhnvMy4QxTRG9MlQA121PlZ4pl80scykeugmhG1-csSYdj_AGAuf_UWEAzdAWjWiaK6LBW-wsBL3h9x43Q-7EtP4iDW59y4pvohL87rh?width=24&height=24&cropmode=none" alt="A">
-                       <img height="100%" src="https://dsm01pap007files.storage.live.com/y4mzougfVYLkuEg5SgUiQidvRWV8jC862EVi7DLybGI_nHVGfddNsMC2ppzdhSrD9RgA7H6EMAGZgwUllLkoq5omsk3N__vmnLtDu_e8lqI7wMAvx3HmqhwlpJELnTfkuxNFK3lzJLy4TimV26ranp8cfLUVemCH3ZPV5RoB5IdyiZak-JCSgst6W-qVPtcMFOB?width=24&height=24&cropmode=none" alt="T">
+                       <img height="100%" src="../icons/24/iron_armors.png" alt="A">
+                       <img height="100%" src="../icons/24/diamond_tools.png" alt="T">
                     </div>
                 </div>
             </div>
@@ -458,7 +323,7 @@
                 <h2>Output</h2>
                 <div class="output">
                     <div class="command">
-                        <div id="GiveOutput">Nothing Here ~~<br>13123<br>13123<br>13123</div>
+                        <div id="GiveOutput">Nothing Here ~~<br>Nothing Here ~~<br>Nothing Here ~~<br>Nothing Here ~~</div>
                     </div>
                     <div class="button"></div>
                 </div>
